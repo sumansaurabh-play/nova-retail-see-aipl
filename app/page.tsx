@@ -12,13 +12,17 @@ import {
 import { Segments } from "@/components/report/segments"
 import { Roadmap } from "@/components/report/roadmap"
 import { EvidenceTrigger } from "@/components/report/evidence-trigger"
+import { SectionNavigator } from "@/components/report/section-navigator"
 
 export default function NovaReport() {
   return (
     <main className="relative">
+      <SectionNavigator />
       <DoomscrollIntro />
       <ReadingProgress />
-      <Hero />
+      <div id="top">
+        <Hero />
+      </div>
 
       {/* 01 — Business problem */}
       <Section id="problem" className="border-t border-border">
