@@ -95,7 +95,7 @@ export default function NovaReport() {
                   {g.items.map((it) => (
                     <li
                       key={it}
-                      className="rounded-full border border-border px-4 py-2 text-sm text-muted-foreground"
+                      className="rounded-lg border border-border px-4 py-2 text-sm text-muted-foreground"
                     >
                       {it}
                     </li>
