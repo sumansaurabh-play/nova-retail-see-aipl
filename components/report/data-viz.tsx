@@ -18,10 +18,10 @@ export function AttitudeBars() {
   return (
     <div className="rounded-lg border border-border bg-card p-6 md:p-8">
       <div className="mb-6 flex items-end justify-between">
-        <h3 className="font-serif text-xl tracking-tight text-foreground">
+        <h3 className="font-serif text-2xl tracking-tight text-foreground">
           Relative importance, by attribute
         </h3>
-        <span className="font-mono text-[10px] uppercase tracking-editorial text-muted-foreground">
+        <span className="font-mono text-[13px] uppercase tracking-editorial text-muted-foreground">
           ranked mean
         </span>
       </div>
@@ -29,15 +29,15 @@ export function AttitudeBars() {
         {ATTITUDES.map((a, i) => (
           <Reveal as="li" key={a.label} delay={i * 50}>
             <div className="flex items-center gap-4">
-              <span className="w-24 shrink-0 text-sm font-medium text-foreground">{a.label}</span>
-              <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-secondary">
+              <span className="w-24 shrink-0 text-base font-medium text-foreground">{a.label}</span>
+              <div className="relative h-3 flex-1 overflow-hidden rounded-full bg-secondary">
                 <div
                   className="absolute inset-y-0 left-0 rounded-full bg-foreground/80"
                   style={{ width: `${a.weight}%` }}
                 />
               </div>
               {a.dispersion && (
-                <span className="shrink-0 rounded-full border border-accent/40 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-accent">
+                <span className="shrink-0 rounded-full border border-accent/40 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-accent">
                   high spread
                 </span>
               )}
@@ -67,7 +67,7 @@ const K_ROWS = [
 export function ClusterSelection() {
   return (
     <div className="overflow-hidden rounded-lg border border-border bg-card">
-      <div className="grid grid-cols-[auto_1fr_auto] gap-4 border-b border-border px-6 py-3 font-mono text-[10px] uppercase tracking-editorial text-muted-foreground">
+      <div className="grid grid-cols-[auto_1fr_auto] gap-4 border-b border-border px-6 py-3 font-mono text-[12px] uppercase tracking-editorial text-muted-foreground">
         <span>Solution</span>
         <span>Cluster sizes</span>
         <span className="text-right">Between / Total SS</span>
@@ -79,10 +79,10 @@ export function ClusterSelection() {
             row.selected ? "bg-accent/[0.06]" : ""
           } ${row.k !== "k = 5" ? "border-b border-border" : ""}`}
         >
-          <span className="flex items-center gap-2 font-mono text-sm text-foreground">
+          <span className="flex items-center gap-2 font-mono text-base text-foreground">
             {row.k}
             {row.selected && (
-              <span className="rounded-full bg-accent px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-accent-foreground">
+              <span className="rounded-full bg-accent px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-accent-foreground">
                 selected
               </span>
             )}
@@ -105,7 +105,7 @@ export function ClusterSelection() {
           </div>
         </div>
       ))}
-      <p className="border-t border-border px-6 py-4 text-sm leading-relaxed text-muted-foreground">
+      <p className="border-t border-border px-6 py-4 text-base leading-relaxed text-muted-foreground">
         Explained variance keeps rising as clusters multiply — but the gain beyond{" "}
         <span className="font-medium text-foreground">k = 3</span> fragments three clean business stories without
         adding managerial meaning. Three balanced, interpretable segments win.
@@ -131,10 +131,10 @@ export function OddsRatios() {
   return (
     <div className="rounded-lg border border-border bg-card p-6 md:p-8">
       <div className="mb-6 flex items-end justify-between">
-        <h3 className="font-serif text-xl tracking-tight text-foreground">
+        <h3 className="font-serif text-2xl tracking-tight text-foreground">
           What predicts the high-value segment
         </h3>
-        <span className="font-mono text-[10px] uppercase tracking-editorial text-muted-foreground">
+        <span className="font-mono text-[13px] uppercase tracking-editorial text-muted-foreground">
           odds ratio
         </span>
       </div>
@@ -142,13 +142,13 @@ export function OddsRatios() {
         {PREDICTORS.map((p, i) => (
           <Reveal as="li" key={p.label} delay={i * 50}>
             <div className="flex items-baseline justify-between gap-4">
-              <span className={`text-sm ${p.sig ? "font-medium text-foreground" : "text-muted-foreground"}`}>
+              <span className={`text-base ${p.sig ? "font-medium text-foreground" : "text-muted-foreground"}`}>
                 {p.label}
               </span>
               <span className="flex items-baseline gap-3">
-                <span className="font-mono text-[11px] text-muted-foreground">p {p.p}</span>
+                <span className="font-mono text-[13px] text-muted-foreground">p {p.p}</span>
                 <span
-                  className={`font-mono text-sm ${p.sig ? "font-semibold text-foreground" : "text-muted-foreground"}`}
+                  className={`font-mono text-base ${p.sig ? "font-semibold text-foreground" : "text-muted-foreground"}`}
                 >
                   {p.or.toFixed(2)}×
                 </span>
@@ -168,7 +168,7 @@ export function OddsRatios() {
           </Reveal>
         ))}
       </ul>
-      <p className="mt-6 border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
+      <p className="mt-6 border-t border-border pt-4 text-base leading-relaxed text-muted-foreground">
         The vertical marker is the no-effect line (1.0×). Only{" "}
         <span className="font-medium text-foreground">age and income</span> clear it decisively — geography and
         gender do not. Targeting can rest on two observable, defensible filters.
@@ -194,8 +194,8 @@ export function PerceptualMap() {
   return (
     <div className="rounded-lg border border-border bg-card p-6 md:p-8">
       <div className="mb-6 flex items-end justify-between">
-        <h3 className="font-serif text-xl tracking-tight text-foreground">Where Nova sits in the mind</h3>
-        <span className="font-mono text-[10px] uppercase tracking-editorial text-muted-foreground">
+        <h3 className="font-serif text-2xl tracking-tight text-foreground">Where Nova sits in the mind</h3>
+        <span className="font-mono text-[13px] uppercase tracking-editorial text-muted-foreground">
           illustrative
         </span>
       </div>
@@ -206,16 +206,16 @@ export function PerceptualMap() {
         <div className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-border" />
 
         {/* axis labels */}
-        <span className="absolute -top-1 left-1/2 -translate-x-1/2 -translate-y-full pb-2 font-mono text-[10px] uppercase tracking-editorial text-muted-foreground">
+        <span className="absolute -top-1 left-1/2 -translate-x-1/2 -translate-y-full pb-2 font-mono text-[12px] uppercase tracking-editorial text-muted-foreground">
           Trust &amp; advice
         </span>
-        <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 translate-y-full pt-2 font-mono text-[10px] uppercase tracking-editorial text-muted-foreground">
+        <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 translate-y-full pt-2 font-mono text-[12px] uppercase tracking-editorial text-muted-foreground">
           Transactional
         </span>
-        <span className="absolute top-1/2 -left-2 -translate-x-full -translate-y-1/2 -rotate-90 font-mono text-[10px] uppercase tracking-editorial text-muted-foreground">
+        <span className="absolute top-1/2 -left-2 -translate-x-full -translate-y-1/2 -rotate-90 font-mono text-[12px] uppercase tracking-editorial text-muted-foreground">
           Value
         </span>
-        <span className="absolute top-1/2 -right-2 translate-x-full -translate-y-1/2 rotate-90 font-mono text-[10px] uppercase tracking-editorial text-muted-foreground">
+        <span className="absolute top-1/2 -right-2 translate-x-full -translate-y-1/2 rotate-90 font-mono text-[12px] uppercase tracking-editorial text-muted-foreground">
           Premium
         </span>
 
@@ -233,7 +233,7 @@ export function PerceptualMap() {
               }`}
             />
             <span
-              className={`mt-1.5 whitespace-nowrap text-xs ${
+              className={`mt-2 whitespace-nowrap text-sm ${
                 b.self ? "font-semibold text-accent" : "text-muted-foreground"
               }`}
             >
@@ -242,7 +242,7 @@ export function PerceptualMap() {
           </div>
         ))}
       </div>
-      <p className="mt-6 border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
+      <p className="mt-6 border-t border-border pt-4 text-base leading-relaxed text-muted-foreground">
         Nova clusters tightly with <span className="font-medium text-foreground">Croma</span> and{" "}
         <span className="font-medium text-foreground">Reliance Digital</span> — credible, but crowded and
         undifferentiated. The open ground is upward: toward trust and advice.

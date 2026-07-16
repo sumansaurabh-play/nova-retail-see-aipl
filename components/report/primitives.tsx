@@ -3,7 +3,7 @@ import { Reveal } from "./reveal"
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-editorial text-accent">
+    <span className="inline-flex items-center gap-2 font-mono text-[13px] uppercase tracking-editorial text-accent">
       {children}
     </span>
   )
@@ -24,7 +24,7 @@ export function SectionHeading({
     <div className="mb-12 md:mb-16">
       <Reveal>
         <div className="flex items-baseline gap-4">
-          <span className="font-mono text-xs text-muted-foreground">{index}</span>
+          <span className="font-mono text-[13px] text-muted-foreground">{index}</span>
           <Eyebrow>{eyebrow}</Eyebrow>
         </div>
       </Reveal>
@@ -53,9 +53,9 @@ export function Stat({
 }) {
   return (
     <div className="flex flex-col">
-      <span className="font-serif text-4xl leading-none tracking-tight text-foreground md:text-5xl">{value}</span>
-      <span className="mt-3 text-sm font-medium text-foreground">{label}</span>
-      {sub && <span className="mt-1 text-sm leading-relaxed text-muted-foreground">{sub}</span>}
+      <span className="font-serif text-5xl leading-none tracking-tight text-foreground md:text-6xl">{value}</span>
+      <span className="mt-3 text-base font-medium text-foreground">{label}</span>
+      {sub && <span className="mt-1 text-base leading-relaxed text-muted-foreground">{sub}</span>}
     </div>
   )
 }
