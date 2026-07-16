@@ -1,3 +1,5 @@
+"use client"
+
 import { ReadingProgress } from "@/components/report/reading-progress"
 import { DoomscrollIntro } from "@/components/report/doomscroll-intro"
 import { Hero } from "@/components/report/hero"
@@ -12,12 +14,66 @@ import {
 import { Segments } from "@/components/report/segments"
 import { Roadmap } from "@/components/report/roadmap"
 import { EvidenceTrigger } from "@/components/report/evidence-trigger"
-import { SectionNavigator } from "@/components/report/section-navigator"
+import { useEffect } from "react"
 
 export default function NovaReport() {
+  useEffect(() => {
+    const sections = [
+      "top",
+      "problem",
+      "data",
+      "insights",
+      "method",
+      "segments",
+      "validation",
+      "recommendation",
+      "roadmap",
+      "risks",
+      "takeaway",
+    ]
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        e.preventDefault()
+        const currentSection = sections.find((id) => {
+          const element = document.getElementById(id)
+          if (!element) return false
+          const rect = element.getBoundingClientRect()
+          return rect.top >= -100 && rect.top < window.innerHeight / 2
+        })
+
+        const currentIndex = sections.indexOf(currentSection || "top")
+        const nextIndex = Math.min(currentIndex + 1, sections.length - 1)
+        const nextSection = sections[nextIndex]
+
+        if (nextSection) {
+          document.getElementById(nextSection)?.scrollIntoView({ behavior: "smooth" })
+        }
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        e.preventDefault()
+        const currentSection = sections.find((id) => {
+          const element = document.getElementById(id)
+          if (!element) return false
+          const rect = element.getBoundingClientRect()
+          return rect.top >= -100 && rect.top < window.innerHeight / 2
+        })
+
+        const currentIndex = sections.indexOf(currentSection || "top")
+        const prevIndex = Math.max(currentIndex - 1, 0)
+        const prevSection = sections[prevIndex]
+
+        if (prevSection) {
+          document.getElementById(prevSection)?.scrollIntoView({ behavior: "smooth" })
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
+
   return (
     <main className="relative">
-      <SectionNavigator />
       <DoomscrollIntro />
       <ReadingProgress />
       <div id="top">
