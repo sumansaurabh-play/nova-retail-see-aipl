@@ -17,9 +17,6 @@ export function Reveal({ children, className = "", delay = 0, as = "div" }: Reve
     const node = ref.current
     if (!node) return
 
-    // Trigger reveal animation by adding class on mount
-    node.classList.add("is-visible")
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

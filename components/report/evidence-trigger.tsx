@@ -8,6 +8,7 @@ interface EvidenceTriggerProps {
   imageUrl: string
   imageAlt: string
   caption?: string
+  side?: 'bottom' | 'right'
 }
 
 export function EvidenceTrigger({
@@ -46,7 +47,7 @@ export function EvidenceTrigger({
       {/* Inline expandable content - always in DOM for hydration consistency */}
       <div
         className={`overflow-hidden transition-all duration-300 ease-out ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          isOpen ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="overflow-hidden rounded-lg border border-border bg-background shadow-lg">
@@ -72,8 +73,6 @@ export function EvidenceTrigger({
             <button
               onClick={() => window.open(imageUrl, '_blank')}
               className="flex w-full items-center justify-center gap-2 text-[11px] font-medium text-accent/60 transition-colors hover:text-accent"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               <Maximize2 className="h-3 w-3" />
               <span>View full size</span>

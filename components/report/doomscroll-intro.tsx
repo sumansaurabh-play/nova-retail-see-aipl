@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ChevronDown } from "lucide-react"
 
 type Keyframe = { x: number; y: number; opacity: number; scale: number }
@@ -44,8 +44,79 @@ export function DoomscrollIntro() {
   const scrollProgressRef = useRef(0)
   const autoScrollOffsetRef = useRef(0)
   const animationRef = useRef<number>()
+  const logoRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLDivElement>(null)
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    // Determine mobile on client side only
+    setIsMobile(window.innerWidth < 768)
+
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  const displayCards = isMobile ? cards.slice(0, 7) : cards
+
+  useEffect(() => {
+    const getCardStyle = (card: Card, index: number, progress: number, mobile: boolean) => {
+      let x = card.initial.x
+      let y = card.initial.y
+      let opacity = 0
+      let scale = card.initial.scale
+      const isLateCard = index >= 8
+
+      if (progress > 0 && progress <= 0.35) {
+        const p = Math.min(progress / 0.35, 1)
+        const delay = index * 0.05
+        const adjusted = Math.max(0, Math.min((p - delay) * 2, 1))
+        opacity = isLateCard ? 0 : adjusted
+      }
+
+      if (progress > 0.35 && progress <= 0.55) {
+        const eased = smoothstep(Math.min((progress - 0.35) / 0.2, 1))
+        x = 0
+        y = card.descending.y * eased
+        scale = card.initial.scale + (card.descending.scale - card.initial.scale) * eased
+        opacity = isLateCard ? Math.min(eased * 2, 1) : 1
+      }
+
+      if (progress > 0.55) {
+        const eased = smoothstep(Math.min((progress - 0.55) / 0.2, 1))
+        x = card.descending.x + (card.exploded.x - card.descending.x) * eased
+        y = card.descending.y + (card.exploded.y - card.descending.y) * eased
+        scale = card.descending.scale + (card.exploded.scale - card.descending.scale) * eased
+        opacity = 1
+      }
+
+      if (progress > 0.75) {
+        const eased = smoothstep(Math.min((progress - 0.75) / 0.25, 1))
+        x = card.exploded.x + (card.row.x - card.exploded.x) * eased
+        y = card.exploded.y + (card.row.y - card.exploded.y) * eased
+        scale = card.exploded.scale + (card.row.scale - card.exploded.scale) * eased
+        opacity = card.row.opacity
+      }
+
+      if (progress >= 0.9 && !mobile) {
+        const loopWidth = 6800
+        const minX = -3400
+        const rawPos = card.row.x + autoScrollOffsetRef.current
+        const wrapped = (((rawPos - minX) % loopWidth) + loopWidth) % loopWidth
+        x = wrapped + minX
+        const fadeEdge = 2800
+        const fadeWidth = 400
+        if (x < -fadeEdge) opacity = Math.max(0, 1 - (-fadeEdge - x) / fadeWidth)
+        else if (x > fadeEdge) opacity = Math.max(0, 1 - (x - fadeEdge) / fadeWidth)
+        else opacity = 1
+      }
+
+      return { transform: `translate(${x}px, ${y}px) scale(${scale})`, opacity }
+    }
+
+    const currentDisplayCards = isMobile ? cards.slice(0, 7) : cards
+
     const updateAnimations = () => {
       if (!containerRef.current) return
 
@@ -59,27 +130,38 @@ export function DoomscrollIntro() {
       // Update card positions via direct DOM manipulation
       cardsRef.current.forEach((cardEl, index) => {
         if (!cardEl) return
-        const card = displayCards[index]
+        const card = currentDisplayCards[index]
         if (!card) return
 
-        const style = getCardStyle(card, index)
+        const style = getCardStyle(card, index, progress, isMobile)
         cardEl.style.transform = `translate(-50%, -50%) ${style.transform}`
         cardEl.style.opacity = String(style.opacity)
       })
 
-      // Update auto-scroll offset
-      autoScrollOffsetRef.current -= 0.5
-      if (scrollProgress >= 0.9) {
-        cardsRef.current.forEach((cardEl, index) => {
-          if (!cardEl) return
-          const card = displayCards[index]
-          if (!card) return
-          const loopWidth = 6800
-          const minX = -3400
-          const rawPos = card.row.x + autoScrollOffsetRef.current
-          const wrapped = (((rawPos - minX) % loopWidth) + loopWidth) % loopWidth
-          const x = wrapped + minX
-        })
+      // Update auto-scroll offset for the looping row phase
+      if (progress >= 0.9) {
+        autoScrollOffsetRef.current -= 0.5
+      }
+
+      // Update center content (logo and title) via DOM
+      if (logoRef.current) {
+        const logoOpacity = progress < 0.5 ? Math.max(0, 1 - (progress - 0.4) * 10) : 0
+        const logoScale = progress < 0.5 ? 1 - progress * 0.2 : 0.8
+        logoRef.current.style.opacity = String(logoOpacity)
+        logoRef.current.style.transform = `scale(${logoScale})`
+      }
+
+      if (titleRef.current) {
+        const titleOpacity = progress > 0.5 ? Math.min((progress - 0.5) * 2, 1) : 0
+        const titleScale = progress > 0.5 ? 0.85 + (progress - 0.5) * 0.3 : 0.85
+        const titleTranslateY = progress > 0.75 ? (progress - 0.75) * 40 : 0
+        titleRef.current.style.opacity = String(titleOpacity)
+        titleRef.current.style.transform = `scale(${titleScale}) translateY(-${titleTranslateY}vh)`
+      }
+
+      if (scrollIndicatorRef.current) {
+        scrollIndicatorRef.current.style.opacity = progress < 0.1 ? "1" : "0"
+        scrollIndicatorRef.current.style.pointerEvents = progress < 0.1 ? "auto" : "none"
       }
 
       animationRef.current = requestAnimationFrame(updateAnimations)
@@ -92,69 +174,7 @@ export function DoomscrollIntro() {
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [])
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const displayCards = isMobile ? cards.slice(0, 7) : cards
-
-  const getCardStyle = (card: Card, index: number) => {
-    const scrollProgress = scrollProgressRef.current
-    let x = card.initial.x
-    let y = card.initial.y
-    let opacity = 0
-    let scale = card.initial.scale
-    const isLateCard = index >= 8
-
-    if (scrollProgress > 0 && scrollProgress <= 0.35) {
-      const progress = Math.min(scrollProgress / 0.35, 1)
-      const delay = index * 0.05
-      const adjusted = Math.max(0, Math.min((progress - delay) * 2, 1))
-      opacity = isLateCard ? 0 : adjusted
-    }
-
-    if (scrollProgress > 0.35 && scrollProgress <= 0.55) {
-      const eased = smoothstep(Math.min((scrollProgress - 0.35) / 0.2, 1))
-      x = 0
-      y = card.descending.y * eased
-      scale = card.initial.scale + (card.descending.scale - card.initial.scale) * eased
-      opacity = isLateCard ? Math.min(eased * 2, 1) : 1
-    }
-
-    if (scrollProgress > 0.55) {
-      const eased = smoothstep(Math.min((scrollProgress - 0.55) / 0.2, 1))
-      x = card.descending.x + (card.exploded.x - card.descending.x) * eased
-      y = card.descending.y + (card.exploded.y - card.descending.y) * eased
-      scale = card.descending.scale + (card.exploded.scale - card.descending.scale) * eased
-      opacity = 1
-    }
-
-    if (scrollProgress > 0.75) {
-      const eased = smoothstep(Math.min((scrollProgress - 0.75) / 0.25, 1))
-      x = card.exploded.x + (card.row.x - card.exploded.x) * eased
-      y = card.exploded.y + (card.row.y - card.exploded.y) * eased
-      scale = card.exploded.scale + (card.row.scale - card.exploded.scale) * eased
-      opacity = card.row.opacity
-    }
-
-    if (scrollProgress >= 0.9 && !isMobile) {
-      const loopWidth = 6800
-      const minX = -3400
-      const rawPos = card.row.x + autoScrollOffsetRef.current
-      const wrapped = (((rawPos - minX) % loopWidth) + loopWidth) % loopWidth
-      x = wrapped + minX
-      const fadeEdge = 2800
-      const fadeWidth = 400
-      if (x < -fadeEdge) opacity = Math.max(0, 1 - (-fadeEdge - x) / fadeWidth)
-      else if (x > fadeEdge) opacity = Math.max(0, 1 - (x - fadeEdge) / fadeWidth)
-      else opacity = 1
-    }
-
-    return { transform: `translate(${x}px, ${y}px) scale(${scale})`, opacity }
-  }
-
-  const scrollProgress = scrollProgressRef.current
-  const logoOpacity = scrollProgress < 0.5 ? 1 - (scrollProgress - 0.4) * 5 : 0
-  const titleOpacity = scrollProgress > 0.5 ? (scrollProgress - 0.5) * 2 : 0
+  }, [isMobile])
 
   return (
     <div className="bg-primary text-primary-foreground">
@@ -190,11 +210,11 @@ export function DoomscrollIntro() {
             <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
               {/* Opening lockup */}
               <div
+                ref={logoRef}
                 className="absolute inset-0 flex items-center justify-center px-6 text-center"
                 style={{
-                  opacity: Math.max(0, logoOpacity),
-                  transform: `scale(${scrollProgress < 0.5 ? 1 - scrollProgress * 0.2 : 0.8})`,
-                  transition: "opacity 0.2s, transform 0.2s",
+                  opacity: 1,
+                  transition: "none",
                 }}
               >
                 <div>
@@ -208,11 +228,11 @@ export function DoomscrollIntro() {
 
               {/* Resolved title + scroll cue */}
               <div
+                ref={titleRef}
                 className="absolute inset-0 flex items-center justify-center px-6 text-center"
                 style={{
-                  opacity: Math.max(0, titleOpacity),
-                  transform: `scale(${scrollProgress > 0.5 ? 0.85 + (scrollProgress - 0.5) * 0.3 : 0.85}) translateY(-${scrollProgress > 0.75 ? (scrollProgress - 0.75) * 40 : 0}vh)`,
-                  transition: "opacity 0.2s, transform 0.2s",
+                  opacity: 0,
+                  transition: "none",
                 }}
               >
                 <div className="max-w-3xl">
@@ -228,14 +248,16 @@ export function DoomscrollIntro() {
             </div>
 
             {/* Scroll indicator */}
-            {scrollProgress < 0.1 && (
-              <div className="absolute bottom-10 left-1/2 z-30 -translate-x-1/2 animate-in fade-in duration-500">
-                <div className="flex animate-bounce flex-col items-center gap-2 text-sm text-primary-foreground/50">
-                  <span>Keep scrolling</span>
-                  <ChevronDown className="h-5 w-5" />
-                </div>
+            <div
+              ref={scrollIndicatorRef}
+              className="absolute bottom-10 left-1/2 z-30 -translate-x-1/2"
+              style={{ transition: "opacity 0.3s" }}
+            >
+              <div className="flex animate-bounce flex-col items-center gap-2 text-sm text-primary-foreground/50">
+                <span>Keep scrolling</span>
+                <ChevronDown className="h-5 w-5" />
               </div>
-            )}
+            </div>
           </div>
 
           {/* Extra content sections (below hero) */}
