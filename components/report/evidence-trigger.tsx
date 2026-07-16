@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { Maximize2 } from 'lucide-react'
 
 interface EvidenceTriggerProps {
@@ -19,61 +19,76 @@ export function EvidenceTrigger({
   side = 'top',
 }: EvidenceTriggerProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [position, setPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 })
+  const [position, setPosition] = useState<{ top: number; left: number } | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const popoverRef = useRef<HTMLDivElement>(null)
 
-  // Handle positioning
+  // Track if component is mounted to avoid hydration mismatch
   useEffect(() => {
-    if (!isOpen || !triggerRef.current) return
+    setIsMounted(true)
+  }, [])
+
+  // Handle positioning
+  const updatePosition = useCallback(() => {
+    if (!isMounted || !isOpen || !triggerRef.current || !popoverRef.current) return
 
     const triggerRect = triggerRef.current.getBoundingClientRect()
-    const popoverElement = popoverRef.current
-    if (!popoverElement) return
+    const popoverRect = popoverRef.current.getBoundingClientRect()
+    const gap = 12
 
-    // Wait for popover to render, then calculate size
-    setTimeout(() => {
-      if (!popoverElement) return
-      const popoverRect = popoverElement.getBoundingClientRect()
-      const gap = 12
+    let top = 0
+    let left = 0
 
-      let top = 0
-      let left = 0
+    // Calculate position based on side
+    switch (side) {
+      case 'top':
+        top = triggerRect.top - popoverRect.height - gap
+        left = triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2
+        break
+      case 'bottom':
+        top = triggerRect.bottom + gap
+        left = triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2
+        break
+      case 'left':
+        top = triggerRect.top + triggerRect.height / 2 - popoverRect.height / 2
+        left = triggerRect.left - popoverRect.width - gap
+        break
+      case 'right':
+        top = triggerRect.top + triggerRect.height / 2 - popoverRect.height / 2
+        left = triggerRect.right + gap
+        break
+    }
 
-      // Calculate position based on side
-      switch (side) {
-        case 'top':
-          top = triggerRect.top - popoverRect.height - gap
-          left = triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2
-          break
-        case 'bottom':
-          top = triggerRect.bottom + gap
-          left = triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2
-          break
-        case 'left':
-          top = triggerRect.top + triggerRect.height / 2 - popoverRect.height / 2
-          left = triggerRect.left - popoverRect.width - gap
-          break
-        case 'right':
-          top = triggerRect.top + triggerRect.height / 2 - popoverRect.height / 2
-          left = triggerRect.right + gap
-          break
-      }
+    // Prevent viewport overflow
+    const padding = 16
+    if (left < padding) left = padding
+    if (left + popoverRect.width > window.innerWidth - padding) {
+      left = window.innerWidth - popoverRect.width - padding
+    }
+    if (top < padding) top = padding
+    if (top + popoverRect.height > window.innerHeight - padding) {
+      top = window.innerHeight - popoverRect.height - padding
+    }
 
-      // Prevent viewport overflow
-      const padding = 16
-      if (left < padding) left = padding
-      if (left + popoverRect.width > window.innerWidth - padding) {
-        left = window.innerWidth - popoverRect.width - padding
-      }
-      if (top < padding) top = padding
-      if (top + popoverRect.height > window.innerHeight - padding) {
-        top = window.innerHeight - popoverRect.height - padding
-      }
+    setPosition({ top, left })
+  }, [isMounted, isOpen, side])
 
-      setPosition({ top, left })
+  // Update position when opening or window resizes
+  useEffect(() => {
+    if (!isMounted || !isOpen) return
+
+    // Use requestAnimationFrame to ensure DOM is updated
+    const timeoutId = setTimeout(() => {
+      updatePosition()
     }, 0)
-  }, [isOpen, side])
+
+    window.addEventListener('resize', updatePosition)
+    return () => {
+      clearTimeout(timeoutId)
+      window.removeEventListener('resize', updatePosition)
+    }
+  }, [isMounted, isOpen, updatePosition])
 
   // Close on escape
   useEffect(() => {
@@ -125,14 +140,14 @@ export function EvidenceTrigger({
         <span>{label}</span>
       </button>
 
-      {/* Popover */}
-      {isOpen && (
+      {/* Popover - only render after hydration to avoid mismatch */}
+      {isMounted && isOpen && (
         <div
           ref={popoverRef}
           style={{
             position: 'fixed',
-            top: `${position.top}px`,
-            left: `${position.left}px`,
+            top: position ? `${position.top}px` : '0',
+            left: position ? `${position.left}px` : '0',
             zIndex: 50,
           }}
           className="w-80 animate-in fade-in zoom-in-95 duration-200"
