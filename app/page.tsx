@@ -1,3 +1,5 @@
+"use client"
+
 import { ReadingProgress } from "@/components/report/reading-progress"
 import { DoomscrollIntro } from "@/components/report/doomscroll-intro"
 import { Hero } from "@/components/report/hero"
@@ -12,13 +14,71 @@ import {
 import { Segments } from "@/components/report/segments"
 import { Roadmap } from "@/components/report/roadmap"
 import { EvidenceTrigger } from "@/components/report/evidence-trigger"
+import { useEffect } from "react"
 
 export default function NovaReport() {
+  useEffect(() => {
+    const sections = [
+      "top",
+      "problem",
+      "data",
+      "insights",
+      "method",
+      "segments",
+      "validation",
+      "recommendation",
+      "roadmap",
+      "risks",
+      "takeaway",
+    ]
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        e.preventDefault()
+        const currentSection = sections.find((id) => {
+          const element = document.getElementById(id)
+          if (!element) return false
+          const rect = element.getBoundingClientRect()
+          return rect.top >= -100 && rect.top < window.innerHeight / 2
+        })
+
+        const currentIndex = sections.indexOf(currentSection || "top")
+        const nextIndex = Math.min(currentIndex + 1, sections.length - 1)
+        const nextSection = sections[nextIndex]
+
+        if (nextSection) {
+          document.getElementById(nextSection)?.scrollIntoView({ behavior: "smooth" })
+        }
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        e.preventDefault()
+        const currentSection = sections.find((id) => {
+          const element = document.getElementById(id)
+          if (!element) return false
+          const rect = element.getBoundingClientRect()
+          return rect.top >= -100 && rect.top < window.innerHeight / 2
+        })
+
+        const currentIndex = sections.indexOf(currentSection || "top")
+        const prevIndex = Math.max(currentIndex - 1, 0)
+        const prevSection = sections[prevIndex]
+
+        if (prevSection) {
+          document.getElementById(prevSection)?.scrollIntoView({ behavior: "smooth" })
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
+
   return (
     <main className="relative">
       <DoomscrollIntro />
       <ReadingProgress />
-      <Hero />
+      <div id="top">
+        <Hero />
+      </div>
 
       {/* 01 — Business problem */}
       <Section id="problem" className="border-t border-border">
@@ -48,7 +108,7 @@ export default function NovaReport() {
           </Reveal>
           <Reveal delay={120}>
             <div className="rounded-lg border border-border bg-card p-7">
-              <div className="font-mono text-[10px] uppercase tracking-editorial text-accent">
+              <div className="font-mono text-[13px] uppercase tracking-editorial text-accent">
                 The decision on the table
               </div>
               <p className="mt-4 font-serif text-2xl leading-snug tracking-tight text-foreground">
@@ -90,18 +150,18 @@ export default function NovaReport() {
           ].map((g, i) => (
             <Reveal key={g.h} delay={i * 90}>
               <div className="flex h-full flex-col rounded-lg border border-border bg-background p-7">
-                <h3 className="font-serif text-xl tracking-tight text-foreground">{g.h}</h3>
-                <ul className="mt-4 flex flex-1 flex-wrap gap-2">
+                <h3 className="font-serif text-2xl tracking-tight text-foreground overflow-hidden text-ellipsis">{g.h}</h3>
+                <ul className="mt-4 flex flex-1 flex-wrap gap-3">
                   {g.items.map((it) => (
                     <li
                       key={it}
-                      className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground"
+                      className="rounded-lg border border-border px-4 py-2 text-sm text-muted-foreground"
                     >
                       {it}
                     </li>
                   ))}
                 </ul>
-                <p className="mt-6 border-t border-border pt-4 font-mono text-[10px] uppercase tracking-editorial text-accent">
+                <p className="mt-6 border-t border-border pt-4 font-mono text-[12px] uppercase tracking-editorial text-accent">
                   {g.role}
                 </p>
               </div>
@@ -304,7 +364,7 @@ export default function NovaReport() {
       >
         <div className="mx-auto w-full max-w-6xl">
           <Reveal>
-            <span className="font-mono text-[11px] uppercase tracking-editorial text-accent">
+            <span className="font-mono text-[14px] uppercase tracking-editorial text-accent">
               The Recommendation
             </span>
           </Reveal>
@@ -339,7 +399,7 @@ export default function NovaReport() {
             ].map((c, i) => (
               <Reveal key={c.h} delay={i * 90}>
                 <div className="h-full bg-foreground p-7">
-                  <div className="font-mono text-[10px] uppercase tracking-editorial text-accent">{c.h}</div>
+                  <div className="font-mono text-[13px] uppercase tracking-editorial text-accent">{c.h}</div>
                   <p className="mt-4 text-lg leading-relaxed text-background/90">{c.b}</p>
                 </div>
               </Reveal>
@@ -399,8 +459,8 @@ export default function NovaReport() {
               <div className="flex h-full gap-5 rounded-lg border border-border bg-background p-7">
                 <span className="font-serif text-2xl leading-none text-border">0{i + 1}</span>
                 <div>
-                  <h3 className="font-serif text-xl tracking-tight text-foreground">{r.h}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.b}</p>
+                  <h3 className="font-serif text-2xl tracking-tight text-foreground">{r.h}</h3>
+                  <p className="mt-2 text-base leading-relaxed text-muted-foreground">{r.b}</p>
                 </div>
               </div>
             </Reveal>
@@ -412,7 +472,7 @@ export default function NovaReport() {
       <Section id="takeaway" className="border-t border-border">
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
-            <span className="font-mono text-[11px] uppercase tracking-editorial text-accent">
+            <span className="font-mono text-[14px] uppercase tracking-editorial text-accent">
               The Board Takeaway
             </span>
           </Reveal>

@@ -23,7 +23,7 @@ export function EvidenceTrigger({
     <div className="space-y-2">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-background/50 px-2.5 py-1 text-xs font-medium text-accent/80 transition-all hover:border-border hover:bg-background hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/30 focus:ring-offset-2"
+        className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-background/50 px-3 py-1.5 text-sm font-medium text-accent/80 transition-all hover:border-border hover:bg-background hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/30 focus:ring-offset-2"
         aria-label={`Show ${label}`}
         aria-expanded={isOpen}
       >
@@ -64,7 +64,7 @@ export function EvidenceTrigger({
           {/* Caption */}
           {caption && (
             <div className="border-t border-border bg-card/50 px-4 py-3">
-              <p className="text-xs leading-relaxed text-muted-foreground">{caption}</p>
+              <p className="text-sm leading-relaxed text-muted-foreground">{caption}</p>
             </div>
           )}
 
@@ -72,7 +72,7 @@ export function EvidenceTrigger({
           <div className="border-t border-border/50 bg-background px-4 py-2">
             <button
               onClick={() => window.open(imageUrl, '_blank')}
-              className="flex w-full items-center justify-center gap-2 text-[11px] font-medium text-accent/60 transition-colors hover:text-accent"
+              className="flex w-full items-center justify-center gap-2 text-[13px] font-medium text-accent/60 transition-colors hover:text-accent"
             >
               <Maximize2 className="h-3 w-3" />
               <span>View full size</span>
