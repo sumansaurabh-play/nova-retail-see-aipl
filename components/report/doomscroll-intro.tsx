@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { ChevronDown } from "lucide-react"
 
 type Keyframe = { x: number; y: number; opacity: number; scale: number }
@@ -40,61 +40,62 @@ const smoothstep = (t: number) => t * t * (3 - 2 * t)
 
 export function DoomscrollIntro() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([])
   const scrollProgressRef = useRef(0)
   const autoScrollOffsetRef = useRef(0)
-  const isMobileRef = useRef(false)
-  const reducedMotionRef = useRef(false)
-
-  // Initialize refs on first render without triggering state updates
-  useEffect(() => {
-    const checkMobile = () => {
-      isMobileRef.current = window.innerWidth < 768
-      containerRef.current?.parentElement?.style.setProperty('--is-mobile', isMobileRef.current ? '1' : '0')
-    }
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const setRM = () => {
-      reducedMotionRef.current = mq.matches
-    }
-    setRM()
-    mq.addEventListener("change", setRM)
-
-    return () => {
-      window.removeEventListener("resize", checkMobile)
-      mq.removeEventListener("change", setRM)
-    }
-  }, [])
+  const animationRef = useRef<number>()
 
   useEffect(() => {
-    const handleScroll = () => {
+    const updateAnimations = () => {
       if (!containerRef.current) return
+
+      // Update scroll progress
       const rect = containerRef.current.getBoundingClientRect()
       const scrollableDistance = containerRef.current.offsetHeight - window.innerHeight
       const scrolled = -rect.top
       const progress = Math.min(Math.max(scrolled / scrollableDistance, 0), 1)
       scrollProgressRef.current = progress
-      containerRef.current.style.setProperty('--scroll-progress', String(progress))
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
 
-  // Gentle horizontal drift once the row has formed — no scroll lock, so the
-  // sequence always resolves into the report below.
-  useEffect(() => {
-    const interval = setInterval(() => {
-      autoScrollOffsetRef.current -= 1.2
-      if (containerRef.current) {
-        containerRef.current.style.setProperty('--auto-scroll-offset', String(autoScrollOffsetRef.current))
+      // Update card positions via direct DOM manipulation
+      cardsRef.current.forEach((cardEl, index) => {
+        if (!cardEl) return
+        const card = displayCards[index]
+        if (!card) return
+
+        const style = getCardStyle(card, index)
+        cardEl.style.transform = `translate(-50%, -50%) ${style.transform}`
+        cardEl.style.opacity = String(style.opacity)
+      })
+
+      // Update auto-scroll offset
+      autoScrollOffsetRef.current -= 0.5
+      if (scrollProgress >= 0.9) {
+        cardsRef.current.forEach((cardEl, index) => {
+          if (!cardEl) return
+          const card = displayCards[index]
+          if (!card) return
+          const loopWidth = 6800
+          const minX = -3400
+          const rawPos = card.row.x + autoScrollOffsetRef.current
+          const wrapped = (((rawPos - minX) % loopWidth) + loopWidth) % loopWidth
+          const x = wrapped + minX
+        })
       }
-    }, 16)
-    return () => clearInterval(interval)
+
+      animationRef.current = requestAnimationFrame(updateAnimations)
+    }
+
+    animationRef.current = requestAnimationFrame(updateAnimations)
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+    }
   }, [])
 
-  const displayCards = isMobileRef.current ? cards.slice(0, 7) : cards
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const displayCards = isMobile ? cards.slice(0, 7) : cards
 
   const getCardStyle = (card: Card, index: number) => {
     const scrollProgress = scrollProgressRef.current
@@ -135,7 +136,7 @@ export function DoomscrollIntro() {
       opacity = card.row.opacity
     }
 
-    if (scrollProgress >= 0.9 && !isMobileRef.current) {
+    if (scrollProgress >= 0.9 && !isMobile) {
       const loopWidth = 6800
       const minX = -3400
       const rawPos = card.row.x + autoScrollOffsetRef.current
@@ -157,27 +158,33 @@ export function DoomscrollIntro() {
 
   return (
     <div className="bg-primary text-primary-foreground">
-      <div ref={containerRef} className="relative" style={{ height: isMobileRef.current ? "560vh" : "760vh" }}>
-        <div className="sticky top-0 h-screen overflow-hidden">
-          <div className="relative h-full w-full">
-            {/* Image wall */}
-            <div className="absolute inset-0 z-10 flex items-center justify-center">
-              {displayCards.map((card, index) => (
-                <div
-                  key={index}
-                  className="absolute h-56 w-56 overflow-hidden rounded-xl shadow-2xl transition-transform duration-200 will-change-transform md:h-64 md:w-64"
-                  style={getCardStyle(card, index)}
-                >
-                  <img
-                    src={card.image || "/placeholder.svg"}
-                    alt=""
-                    aria-hidden="true"
-                    className="h-full w-full object-cover"
-                    crossOrigin="anonymous"
-                  />
-                </div>
-              ))}
-            </div>
+      <div ref={containerRef} className="relative" style={{ height: "760vh" }}>
+        <div className="sticky top-0 flex items-center justify-center overflow-hidden bg-primary text-primary-foreground" style={{ height: "100vh" }}>
+          {/* Center stage for cards */}
+          <div className="relative" style={{ width: "600px", height: "600px", perspective: "1000px" }}>
+            {displayCards.map((card, index) => (
+              <figure
+                key={card.image}
+                ref={(el) => {
+                  cardsRef.current[index] = el
+                }}
+                className="absolute"
+                style={{
+                  left: "50%",
+                  top: "50%",
+                  opacity: 0,
+                  width: "300px",
+                  height: "300px",
+                  transition: "none",
+                }}
+              >
+                <img
+                  src={card.image}
+                  alt="report visual"
+                  className="h-full w-full rounded-lg object-cover"
+                />
+              </figure>
+            ))}
 
             {/* Center content */}
             <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
@@ -221,12 +228,19 @@ export function DoomscrollIntro() {
             </div>
 
             {/* Scroll indicator */}
-            <div className="absolute bottom-10 left-1/2 z-30 -translate-x-1/2" style={{ opacity: scrollProgressRef.current < 0.1 ? 1 : 0, transition: 'opacity 0.3s' }}>
-              <div className="flex animate-bounce flex-col items-center gap-2 text-sm text-primary-foreground/50">
-                <span>Keep scrolling</span>
-                <ChevronDown className="h-5 w-5" />
+            {scrollProgress < 0.1 && (
+              <div className="absolute bottom-10 left-1/2 z-30 -translate-x-1/2 animate-in fade-in duration-500">
+                <div className="flex animate-bounce flex-col items-center gap-2 text-sm text-primary-foreground/50">
+                  <span>Keep scrolling</span>
+                  <ChevronDown className="h-5 w-5" />
+                </div>
               </div>
-            </div>
+            )}
+          </div>
+
+          {/* Extra content sections (below hero) */}
+          <div className="relative bg-primary text-primary-foreground">
+            {/* Roadmap or additional content can be added here */}
           </div>
         </div>
       </div>
