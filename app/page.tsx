@@ -189,28 +189,24 @@ export default function NovaReport() {
           index="05"
           eyebrow="The Three Segments"
           title="Three archetypes, one clear priority."
-          lede={
-            <div className="flex flex-wrap items-center gap-2">
-              <span>Profiled after clustering, each segment maps to a distinct managerial story. Only one is the defensible growth engine.</span>
-              <div className="flex gap-2">
-                <EvidenceTrigger
-                  label="Clusters"
-                  imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Cluster%20Plot-Dsnfok3Go302CT2EY77mC0YeED13sp.svg"
-                  imageAlt="Cluster plot showing three distinct segments"
-                  caption="Three distinct clusters in two-dimensional projection. Clear separation validates the segmentation structure."
-                  side="bottom"
-                />
-                <EvidenceTrigger
-                  label="Profiles"
-                  imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/centroid%20table-pNTE5zyqlvYrGOIoI5tiK1loDmh6ba.svg"
-                  imageAlt="Centroid table with segment characteristics"
-                  caption="Cluster centroids across all variables. Each row represents a segment's mean values, revealing distinct preference and behavioral patterns."
-                  side="bottom"
-                />
-              </div>
-            </div>
-          }
+          lede="Profiled after clustering, each segment maps to a distinct managerial story. Only one is the defensible growth engine."
         />
+        <div className="mb-10 flex gap-2">
+          <EvidenceTrigger
+            label="Clusters"
+            imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Cluster%20Plot-Dsnfok3Go302CT2EY77mC0YeED13sp.svg"
+            imageAlt="Cluster plot showing three distinct segments"
+            caption="Three distinct clusters in two-dimensional projection. Clear separation validates the segmentation structure."
+            side="bottom"
+          />
+          <EvidenceTrigger
+            label="Profiles"
+            imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/centroid%20table-pNTE5zyqlvYrGOIoI5tiK1loDmh6ba.svg"
+            imageAlt="Centroid table with segment characteristics"
+            caption="Cluster centroids across all variables. Each row represents a segment's mean values, revealing distinct preference and behavioral patterns."
+            side="bottom"
+          />
+        </div>
         <Segments />
       </Section>
 
@@ -237,22 +233,26 @@ export default function NovaReport() {
               <p>
                 Each additional lakh of income roughly{" "}
                 <span className="font-medium text-foreground">doubles the odds</span> of belonging to the
-                high-value segment. Each year of age adds a further 5%. <EvidenceTrigger
+                high-value segment. Each year of age adds a further 5%.
+              </p>
+              <div className="mb-5 flex gap-2">
+                <EvidenceTrigger
                   label="Model"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Statistical%20Validation%20Binomial%20Logistic%20Regression%20%20Coefficients%20and%20interpretation-FN8w8kfCTsSEjylla76KBwjRk4OIkp.svg"
                   imageAlt="Logistic regression coefficients"
                   caption="Age and income are significant predictors (p < 0.001). Gender and city tier are not significant, confirming the two-lever targeting strategy."
                   side="right"
                 />
-              </p>
-              <p className="text-muted-foreground">
-                Gender and city tier don&apos;t move the needle. <EvidenceTrigger
+                <EvidenceTrigger
                   label="Fit"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Statistical%20Validation%20Binomial%20Logistic%20Regression%20%20Model%20fit-QfDMY4eUpomQU3ri9Ibfd5tWdhlgsG.svg"
                   imageAlt="Model fit statistics"
                   caption="ROC curve (AUC = 0.926) and model diagnostics. Excellent discrimination between target and non-target segments."
                   side="right"
-                /> That is a gift to management: the target can be found with two simple, observable filters rather than a complex profile.
+                />
+              </div>
+              <p className="text-muted-foreground">
+                Gender and city tier don&apos;t move the needle. That is a gift to management: the target can be found with two simple, observable filters rather than a complex profile.
               </p>
             </div>
           </Reveal>
@@ -275,14 +275,18 @@ export default function NovaReport() {
             <div className="space-y-5 text-lg leading-relaxed text-foreground/90">
               <p>
                 Nova sits shoulder-to-shoulder with <span className="font-medium text-foreground">Croma</span> and{" "}
-                <span className="font-medium text-foreground">Reliance Digital</span>. <EvidenceTrigger
+                <span className="font-medium text-foreground">Reliance Digital</span>. Respected, familiar — and
+                interchangeable.
+              </p>
+              <div className="mb-5 flex gap-2">
+                <EvidenceTrigger
                   label="Map"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Perceptual%20Mapping%20and%20Current%20Brand%20Position-MgyF2OLQqYedBjUIdjJuVZT6bgIHK9.svg"
                   imageAlt="Perceptual map showing brand positions"
                   caption="Nova clusters with Croma and Reliance Digital, all positioned in the credible-but-undifferentiated middle. Apple owns premium; convenience-led players own their space."
                   side="right"
-                /> Respected, familiar — and interchangeable.
-              </p>
+                />
+              </div>
               <p className="text-muted-foreground">
                 Amazon and Flipkart own convenience together; Apple Store owns premium alone. Nova&apos;s risk isn&apos;t
                 credibility. It&apos;s the absence of a reason to be chosen. The implication is unambiguous: sharpen a
