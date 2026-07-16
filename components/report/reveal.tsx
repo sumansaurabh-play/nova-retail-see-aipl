@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import { useEffect, useRef, type ReactNode } from "react"
 
 interface RevealProps {
   children: ReactNode
@@ -12,17 +12,19 @@ interface RevealProps {
 
 export function Reveal({ children, className = "", delay = 0, as = "div" }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const node = ref.current
     if (!node) return
 
+    // Trigger reveal animation by adding class on mount
+    node.classList.add("is-visible")
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setVisible(true)
+            node.classList.add("is-visible")
             observer.unobserve(entry.target)
           }
         })
@@ -39,7 +41,7 @@ export function Reveal({ children, className = "", delay = 0, as = "div" }: Reve
   return (
     <Tag
       ref={ref}
-      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      className={`reveal ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}
