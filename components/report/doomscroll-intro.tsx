@@ -40,18 +40,24 @@ const smoothstep = (t: number) => t * t * (3 - 2 * t)
 
 export function DoomscrollIntro() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [scrollProgress, setScrollProgress] = useState(0)
-  const [autoScrollOffset, setAutoScrollOffset] = useState(0)
-  const [isMobile, setIsMobile] = useState(false)
-  const [reducedMotion, setReducedMotion] = useState(false)
+  const scrollProgressRef = useRef(0)
+  const autoScrollOffsetRef = useRef(0)
+  const isMobileRef = useRef(false)
+  const reducedMotionRef = useRef(false)
 
+  // Initialize refs on first render without triggering state updates
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    const checkMobile = () => {
+      isMobileRef.current = window.innerWidth < 768
+      containerRef.current?.parentElement?.style.setProperty('--is-mobile', isMobileRef.current ? '1' : '0')
+    }
     checkMobile()
     window.addEventListener("resize", checkMobile)
 
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const setRM = () => setReducedMotion(mq.matches)
+    const setRM = () => {
+      reducedMotionRef.current = mq.matches
+    }
     setRM()
     mq.addEventListener("change", setRM)
 
@@ -68,7 +74,8 @@ export function DoomscrollIntro() {
       const scrollableDistance = containerRef.current.offsetHeight - window.innerHeight
       const scrolled = -rect.top
       const progress = Math.min(Math.max(scrolled / scrollableDistance, 0), 1)
-      setScrollProgress(progress)
+      scrollProgressRef.current = progress
+      containerRef.current.style.setProperty('--scroll-progress', String(progress))
     }
     window.addEventListener("scroll", handleScroll, { passive: true })
     handleScroll()
@@ -78,14 +85,19 @@ export function DoomscrollIntro() {
   // Gentle horizontal drift once the row has formed — no scroll lock, so the
   // sequence always resolves into the report below.
   useEffect(() => {
-    if (reducedMotion || isMobile || scrollProgress < 0.9) return
-    const interval = setInterval(() => setAutoScrollOffset((prev) => prev - 1.2), 16)
+    const interval = setInterval(() => {
+      autoScrollOffsetRef.current -= 1.2
+      if (containerRef.current) {
+        containerRef.current.style.setProperty('--auto-scroll-offset', String(autoScrollOffsetRef.current))
+      }
+    }, 16)
     return () => clearInterval(interval)
-  }, [scrollProgress, reducedMotion, isMobile])
+  }, [])
 
-  const displayCards = isMobile ? cards.slice(0, 7) : cards
+  const displayCards = isMobileRef.current ? cards.slice(0, 7) : cards
 
   const getCardStyle = (card: Card, index: number) => {
+    const scrollProgress = scrollProgressRef.current
     let x = card.initial.x
     let y = card.initial.y
     let opacity = 0
@@ -123,10 +135,10 @@ export function DoomscrollIntro() {
       opacity = card.row.opacity
     }
 
-    if (scrollProgress >= 0.9 && !isMobile) {
+    if (scrollProgress >= 0.9 && !isMobileRef.current) {
       const loopWidth = 6800
       const minX = -3400
-      const rawPos = card.row.x + autoScrollOffset
+      const rawPos = card.row.x + autoScrollOffsetRef.current
       const wrapped = (((rawPos - minX) % loopWidth) + loopWidth) % loopWidth
       x = wrapped + minX
       const fadeEdge = 2800
@@ -139,12 +151,13 @@ export function DoomscrollIntro() {
     return { transform: `translate(${x}px, ${y}px) scale(${scale})`, opacity }
   }
 
+  const scrollProgress = scrollProgressRef.current
   const logoOpacity = scrollProgress < 0.5 ? 1 - (scrollProgress - 0.4) * 5 : 0
   const titleOpacity = scrollProgress > 0.5 ? (scrollProgress - 0.5) * 2 : 0
 
   return (
     <div className="bg-primary text-primary-foreground">
-      <div ref={containerRef} className="relative" style={{ height: isMobile ? "560vh" : "760vh" }}>
+      <div ref={containerRef} className="relative" style={{ height: isMobileRef.current ? "560vh" : "760vh" }}>
         <div className="sticky top-0 h-screen overflow-hidden">
           <div className="relative h-full w-full">
             {/* Image wall */}
@@ -208,14 +221,12 @@ export function DoomscrollIntro() {
             </div>
 
             {/* Scroll indicator */}
-            {scrollProgress < 0.1 && (
-              <div className="absolute bottom-10 left-1/2 z-30 -translate-x-1/2">
-                <div className="flex animate-bounce flex-col items-center gap-2 text-sm text-primary-foreground/50">
-                  <span>Keep scrolling</span>
-                  <ChevronDown className="h-5 w-5" />
-                </div>
+            <div className="absolute bottom-10 left-1/2 z-30 -translate-x-1/2" style={{ opacity: scrollProgressRef.current < 0.1 ? 1 : 0, transition: 'opacity 0.3s' }}>
+              <div className="flex animate-bounce flex-col items-center gap-2 text-sm text-primary-foreground/50">
+                <span>Keep scrolling</span>
+                <ChevronDown className="h-5 w-5" />
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
