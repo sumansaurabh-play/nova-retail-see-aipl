@@ -26,9 +26,11 @@ export default function NovaReport() {
       "method",
       "segments",
       "validation",
+      "position",
       "recommendation",
       "roadmap",
       "risks",
+      "metrics",
       "takeaway",
     ]
 
@@ -227,18 +229,24 @@ export default function NovaReport() {
                 rating. K-means fits because the basis variables are continuous — no mixed-type distance needed.
               </p>
               <p className="text-muted-foreground">
-                Solutions were tested at k = 2 through 5. <EvidenceTrigger
-                  label="Clusters"
-                  imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-IyZJwnlcnJNZXUPBMnZOweTGXTCbDz.png"
-                  imageAlt="K-means clustering validation table showing cluster sizes and variance explained"
-                  caption="k = 3 (highlighted) balances statistical power (54.5% variance explained) with managerial clarity. Three actionable segments with distinct profiles."
-                  side="bottom"
-                /> More clusters always explain more variance; the honest test is whether the extra clusters mean anything a manager can act on.
+                Solutions were tested at k = 2 through 5. More clusters always explain more variance; the honest test
+                is whether the extra clusters mean anything a manager can act on.
               </p>
             </div>
           </Reveal>
           <Reveal delay={120}>
-            <ClusterSelection />
+            <div className="space-y-4">
+              <ClusterSelection />
+              <div className="flex justify-start">
+                <EvidenceTrigger
+                  label="Jamovi Clusters Output"
+                  imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-IyZJwnlcnJNZXUPBMnZOweTGXTCbDz.png"
+                  imageAlt="K-means clustering validation table showing cluster sizes and variance explained"
+                  caption="k = 3 (highlighted) balances statistical power (54.5% variance explained) with managerial clarity. Three actionable segments with distinct profiles."
+                  side="bottom"
+                />
+              </div>
+            </div>
           </Reveal>
         </div>
       </Section>
@@ -247,27 +255,51 @@ export default function NovaReport() {
       <Section id="segments" className="border-t border-border">
         <SectionHeading
           index="05"
-          eyebrow="The Three Segments"
-          title="Three archetypes, one clear priority."
-          lede="Profiled after clustering, each segment maps to a distinct managerial story. Only one is the defensible growth engine."
+          eyebrow="Customer Prioritisation"
+          title="Three need-based segments, one clear commercial priority."
+          lede="Each cluster maps to a distinct managerial archetype: Digital Convenience Seekers, Price-Sensitive Deal Seekers, and Trust & Premium Seekers. The labels translate statistical structure into language a board can act on."
         />
-        <div className="mb-10 flex gap-2">
-          <EvidenceTrigger
-            label="Segments"
-            imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-kRC0OtVd52CkIqFObBSQ6C7aSS8qBl.png"
-            imageAlt="3D cluster plot showing three distinct segments in dimensional space"
-            caption="Three visually distinct clusters in reduced dimensional space (38.1% + 30.2% variance). Spatial separation confirms segmentation robustness."
-            side="bottom"
-          />
-          <EvidenceTrigger
-            label="Centroid Table"
-            imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-U698WwELYF3JbxRTk7akByL0jimDK3.png"
-            imageAlt="Centroids of cluster table showing attribute values across all dimensions"
-            caption="Mean attribute values across all seven dimensions (price, convenience, service, premium, technology, loyalty, range). Each cluster shows distinct preference profiles."
-            side="bottom"
-          />
-        </div>
         <Segments />
+        <Reveal delay={120}>
+          <div className="mt-10 rounded-lg border border-border bg-card p-7">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border pb-5 mb-5">
+              <div className="font-mono text-[13px] uppercase tracking-editorial text-accent">
+                Why Cluster 3 is the priority
+              </div>
+              <div className="flex gap-2">
+                <EvidenceTrigger
+                  label="Segments Plot"
+                  imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-kRC0OtVd52CkIqFObBSQ6C7aSS8qBl.png"
+                  imageAlt="3D cluster plot showing three distinct segments in dimensional space"
+                  caption="Three visually distinct clusters in reduced dimensional space (38.1% + 30.2% variance). Spatial separation confirms segmentation robustness."
+                  side="bottom"
+                />
+                <EvidenceTrigger
+                  label="Centroid Table"
+                  imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-U698WwELYF3JbxRTk7akByL0jimDK3.png"
+                  imageAlt="Centroids of cluster table showing attribute values across all dimensions"
+                  caption="Mean attribute values across all seven dimensions (price, convenience, service, premium, technology, loyalty, range). Each cluster shows distinct preference profiles."
+                  side="bottom"
+                />
+              </div>
+            </div>
+            <p className="mt-4 text-lg leading-relaxed text-foreground/90">
+              The <span className="font-medium text-foreground">Trust &amp; Premium Seekers</span>{" "}
+              segment is simultaneously the largest cluster (n=332, 37.7% of the base) and the most
+              commercially attractive by every outcome measured — income, annual spend, loyalty
+              points, NPS, and service perception. This directly confirms CFO Meera Kapoor&apos;s
+              concern:{" "}
+              <span className="font-medium text-foreground">
+                Nova&apos;s highest-value customers are not the ones receiving proportionate
+                attention.
+              </span>
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              Concentrating retention and premium-service investment on this segment is not a
+              speculative bet — it is a reallocation toward where value already exists.
+            </p>
+          </div>
+        </Reveal>
       </Section>
 
       {/* 06 — Validation */}
@@ -275,8 +307,8 @@ export default function NovaReport() {
         <SectionHeading
           index="06"
           eyebrow="Independent Validation"
-          title="A second, independent model agrees — and names the levers."
-          lede="Clustering is unsupervised and descriptive. A binomial logistic regression tests whether the target segment can be predicted from a handful of observable variables. It can."
+          title="A second, independent model confirms the target — and names the levers."
+          lede="Clustering describes; regression validates. A binomial logistic regression independently tests whether the target segment can be predicted from observable variables. It can — with 86.7% accuracy."
         />
         <div className="mb-14 grid grid-cols-2 gap-8 md:grid-cols-4">
           <Reveal><Stat value="0.926" label="AUC" sub="Excellent separation" /></Reveal>
@@ -293,7 +325,7 @@ export default function NovaReport() {
               <p>
                 Each additional lakh of income roughly{" "}
                 <span className="font-medium text-foreground">doubles the odds</span> of belonging to the
-                high-value segment. Each year of age adds a further 5%.
+                Trust &amp; Premium Seekers segment. Each year of age adds a further 5%. These are the two most practical, observable targeting levers available to management.
               </p>
               <div className="mb-5 flex gap-2">
                 <EvidenceTrigger
@@ -312,7 +344,9 @@ export default function NovaReport() {
                 />
               </div>
               <p className="text-muted-foreground">
-                Gender and city tier don&apos;t move the needle. That is a gift to management: the target can be found with two simple, observable filters rather than a complex profile.
+                Gender and city tier are not significant — the target segment cannot be distinguished by either. That is a strategic gift: management can identify high-value customers with{" "}
+                <span className="font-medium text-foreground">two simple, observable filters</span>{" "}
+                rather than a complex profile. The analysis moves the Board from opinion to evidence-based targeting.
               </p>
             </div>
           </Reveal>
@@ -323,38 +357,71 @@ export default function NovaReport() {
       <Section id="position" className="border-t border-border">
         <SectionHeading
           index="07"
-          eyebrow="Current Brand Position"
-          title="Credible company — in a crowded room."
-          lede="A perceptual map on six perception attributes shows where Nova lives in customers' minds today."
+          eyebrow="Perceptual Mapping"
+          title="The Middle-Market Trap — credible, but not chosen."
+          lede={<>A perceptual map on six perception attributes answers the Board&apos;s sharpest question: <em className="not-italic font-medium text-foreground">what does Nova stand for?</em></>}
         />
-        <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
           <Reveal>
             <PerceptualMap />
           </Reveal>
           <Reveal delay={120}>
             <div className="space-y-5 text-lg leading-relaxed text-foreground/90">
               <p>
-                Nova sits shoulder-to-shoulder with <span className="font-medium text-foreground">Croma</span> and{" "}
-                <span className="font-medium text-foreground">Reliance Digital</span>. Respected, familiar — and
-                interchangeable.
+                On the full six-attribute map, Nova sits tightly clustered with{" "}
+                <span className="font-medium text-foreground">Croma</span> and{" "}
+                <span className="font-medium text-foreground">Reliance Digital</span> — three
+                brands occupying virtually the same perceptual space. This is the{" "}
+                <span className="font-medium text-foreground">Middle-Market Trap</span>: respected
+                enough to be considered, but not differentiated enough to be chosen.
               </p>
               <div className="mb-5 flex gap-2">
                 <EvidenceTrigger
                   label="Map"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Perceptual%20Mapping%20and%20Current%20Brand%20Position-MgyF2OLQqYedBjUIdjJuVZT6bgIHK9.svg"
                   imageAlt="Perceptual map showing brand positions"
-                  caption="Nova clusters with Croma and Reliance Digital, all positioned in the credible-but-undifferentiated middle. Apple owns premium; convenience-led players own their space."
+                  caption="Nova clusters with Croma and Reliance Digital in the undifferentiated middle. Amazon and Flipkart own value/convenience; Apple occupies the premium extreme."
                   side="right"
                 />
               </div>
               <p className="text-muted-foreground">
-                Amazon and Flipkart own convenience together; Apple Store owns premium alone. Nova&apos;s risk isn&apos;t
-                credibility. It&apos;s the absence of a reason to be chosen. The implication is unambiguous: sharpen a
-                position rather than drift in the undifferentiated middle.
+                A Principal Component Analysis (PCA) reducing brand perceptions to two key dimensions reveals that
+                Dimension 1 alone explains <span className="font-medium text-foreground">89% of variance</span>,
+                running from Value/Convenience (Amazon, Flipkart) to Premium/Trust (Apple, Samsung Stores). Amazon
+                and Flipkart dominate the value/convenience side — a position Nova cannot realistically contest.
+                Apple occupies the premium extreme alone. Nova is{" "}
+                <span className="font-medium text-foreground">
+                  not weak, but insufficiently differentiated
+                </span>
+                ; it is not occupying open space.
+              </p>
+              <p className="text-muted-foreground">
+                A more focused view — using only Service &amp; Trust and Premium Status, Nova&apos;s
+                two strongest relative attributes — is more encouraging: on these dimensions, Nova
+                clusters with Apple and Samsung Stores, well separated from the convenience players.
+                This suggests{" "}
+                <span className="font-medium text-foreground">genuine, latent equity</span> on
+                trust and premium positioning. But the broader six-attribute map confirms that this
+                equity is currently diluted by weaker Price, Convenience, and Range scores — leaving
+                Nova without sufficient overall separation.
               </p>
             </div>
           </Reveal>
         </div>
+        <Reveal delay={180}>
+          <div className="mt-10 rounded-lg border border-border bg-card p-7">
+            <div className="font-mono text-[13px] uppercase tracking-editorial text-accent">
+              The positioning opportunity
+            </div>
+            <p className="mt-4 text-lg leading-relaxed text-foreground/90">
+              The <span className="font-medium text-foreground">path of least resistance</span> is
+              not building a new position from scratch — it is strengthening the trust and premium
+              equity Nova already holds. The open space is upward, toward trusted advice and
+              post-purchase support, where no competitor currently dominates and where the Trust
+              &amp; Premium Seekers segment is already looking.
+            </p>
+          </div>
+        </Reveal>
       </Section>
 
       {/* 08 — Recommendation (the peak) */}
@@ -374,12 +441,17 @@ export default function NovaReport() {
             </h2>
           </Reveal>
           <Reveal delay={180}>
-            <p className="mt-8 max-w-3xl text-pretty text-lg leading-relaxed text-background/70 md:text-xl">
-              Two independent methods point to the same target, and two observable levers — age and income — make it
-              findable. The differentiation Nova lacks won&apos;t come from a price war, raw convenience, or premium
-              imitation. It comes from <span className="font-medium text-background">trust, advice, and
-              post-purchase support.</span>
-            </p>
+            <div className="mt-8 max-w-3xl space-y-4 text-pretty text-lg leading-relaxed text-background/70 md:text-xl">
+              <p>
+                Two independent methods point to the same target, and two observable levers — age and income — make it
+                findable. The differentiation Nova lacks won&apos;t come from a price war, raw convenience, or premium
+                imitation. It comes from <span className="font-medium text-background text-white">trust, advice, and
+                post-purchase support.</span>
+              </p>
+              <p className="text-base text-background/60">
+                This path is backed by regression evidence: store-level analysis shows Service Quality is the primary driver of revenue (β = 0.316, p &lt; .001), while customer-level spend analysis reveals delivered Service Score yields an additional ₹14,485 in annual spend per point (p &lt; .001). Stated preference is noise; actual experienced quality is revenue.
+              </p>
+            </div>
           </Reveal>
 
           <div className="mt-16 grid gap-px overflow-hidden rounded-lg border border-background/20 bg-background/20 md:grid-cols-3">
@@ -432,35 +504,36 @@ export default function NovaReport() {
       <Section id="risks" className="border-t border-border bg-card/40">
         <SectionHeading
           index="10"
-          eyebrow="Risks & Limitations"
-          title="What would change this conclusion."
-          lede="Stated plainly, because a board decision deserves to know where the evidence is thin."
+          eyebrow="Risks &amp; Limitations"
+          title="Strategic &amp; Operational Risks"
+          lede="Stated plainly, because a board decision deserves to know the execution risks accompanying this recommendation."
         />
+        
         <div className="grid gap-6 md:grid-cols-2">
           {[
             {
-              h: "Cluster shape",
-              b: "K-means assumes roughly spherical, similar-sized clusters. Irregular true shapes could favour hierarchical clustering.",
+              h: "Alienation Risk",
+              b: "Shifting resources toward premium/trust positioning could underserve Price-Sensitive Deal Seekers, who still represent 221 customers (25.1% of the base).",
             },
             {
-              h: "Unreported fit check",
-              b: "The silhouette index for the 3-cluster solution wasn't numerically reported; it should be added to confirm assignment quality.",
+              h: "Execution & Pace Risk",
+              b: "Service-led differentiation depends heavily on training and culture, which is slower to build and harder to measure than price/promo tactics, risking loss of executive patience.",
             },
             {
-              h: "Untested assumptions",
-              b: "Logit assumptions — linearity of the logit, multicollinearity (VIF) — weren't formally tested. Treat as indicative until verified.",
+              h: "Competitive Contestability",
+              b: "Croma and Reliance Digital occupy nearly the same perceptual space as Nova on the full 6-attribute map; either could contest the trust position, narrowing Nova's window to differentiate.",
             },
             {
-              h: "No causality, one wave",
-              b: "Cross-sectional data can't prove income or age cause loyalty, and single-wave data can't confirm segment stability over time.",
+              h: "Messaging-Execution Gap",
+              b: "Regression shows stated preference does not drive spend — only delivered experience does (ServiceScore, NPS). Communication without actual service delivery changes will fail to move spend.",
             },
           ].map((r, i) => (
             <Reveal key={r.h} delay={i * 80}>
               <div className="flex h-full gap-5 rounded-lg border border-border bg-background p-7">
-                <span className="font-serif text-2xl leading-none text-border">0{i + 1}</span>
+                <span className="font-serif text-2xl leading-none text-accent">0{i + 1}</span>
                 <div>
-                  <h3 className="font-serif text-2xl tracking-tight text-foreground">{r.h}</h3>
-                  <p className="mt-2 text-base leading-relaxed text-muted-foreground">{r.b}</p>
+                  <h3 className="font-serif text-xl tracking-tight text-foreground">{r.h}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.b}</p>
                 </div>
               </div>
             </Reveal>
@@ -468,12 +541,69 @@ export default function NovaReport() {
         </div>
       </Section>
 
-      {/* 11 — Takeaway */}
+      {/* 11 — Success Metrics */}
+      <Section id="metrics" className="border-t border-border">
+        <SectionHeading
+          index="11"
+          eyebrow="Success Metrics"
+          title="Measuring Success: Four Levels of Accountability"
+          lede="Success is not a blended average. We track performance where the store and customer regressions pointed."
+        />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-left">
+          {[
+            {
+              level: "Store-level",
+              title: "Operating Drivers",
+              desc: "Service Quality score, Conversion Rate, and Revenue per store.",
+              context: "The three largest validated drivers of store revenue (model R² = 0.687).",
+            },
+            {
+              level: "Customer-level",
+              title: "Relationship Strength",
+              desc: "Service Score, Digital Score, and Overall NPS.",
+              context: "Tracked specifically within the Trust & Premium Seekers segment.",
+            },
+            {
+              level: "Spend outcomes",
+              title: "Commercial Value",
+              desc: "Annual Spend and Transactions per customer.",
+              context: "The significant predictors of annual spend in the customer model (R² = 0.666).",
+            },
+            {
+              level: "Brand-level",
+              title: "Perceptual Separation",
+              desc: "Re-run brand perception mapping in 12–18 months.",
+              context: "The ultimate test of whether Nova has pulled away from Croma and Reliance Digital.",
+            },
+          ].map((m, idx) => (
+            <Reveal key={m.level} delay={idx * 80}>
+              <div className="rounded-lg border border-border bg-card p-6 flex flex-col justify-between h-full">
+                <div>
+                  <span className="font-mono text-[10px] uppercase tracking-editorial text-accent block mb-3">
+                    {m.level}
+                  </span>
+                  <h4 className="font-serif text-xl tracking-tight text-foreground mb-2">
+                    {m.title}
+                  </h4>
+                  <p className="text-sm leading-relaxed text-foreground/90 mb-4">
+                    {m.desc}
+                  </p>
+                </div>
+                <p className="text-[12px] leading-relaxed text-muted-foreground border-t border-border pt-3">
+                  {m.context}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* 12 — Takeaway */}
       <Section id="takeaway" className="border-t border-border">
         <div className="mx-auto max-w-4xl text-center">
           <Reveal>
             <span className="font-mono text-[14px] uppercase tracking-editorial text-accent">
-              The Board Takeaway
+              12 · The Board Takeaway
             </span>
           </Reveal>
           <Reveal delay={100}>

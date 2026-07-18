@@ -245,8 +245,9 @@ export function PerceptualMap() {
       </div>
       <p className="mt-6 border-t border-border pt-4 text-base leading-relaxed text-muted-foreground">
         Nova clusters tightly with <span className="font-medium text-foreground">Croma</span> and{" "}
-        <span className="font-medium text-foreground">Reliance Digital</span> — credible, but crowded and
-        undifferentiated. The open ground is upward: toward trust and advice.
+        <span className="font-medium text-foreground">Reliance Digital</span> — the Middle-Market
+        Trap. Latent equity exists on trust and premium, but the full map shows insufficient overall
+        differentiation. The open ground is upward: toward trusted advice.
       </p>
     </div>
   )

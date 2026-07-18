@@ -6,9 +6,9 @@ const PHASES = [
     title: "Anchor the target",
     focus: "Prove the segment, secure the base",
     actions: [
-      "Score the full base with the age × income model to flag Cluster 3 members and look-alikes",
-      "Reallocate retention and loyalty budget toward the high-value segment",
-      "Launch concierge-grade service and advisory touchpoints for top-decile customers",
+      "Score the full base with the age × income model to flag Trust & Premium Seekers and look-alikes",
+      "Reallocate retention and loyalty budget toward the high-value segment to focus resources",
+      "Launch store-level Service Quality training and staffing (1-point improvement adds ₹5.87L/month in store revenue; model R² = 0.687)",
     ],
   },
   {
@@ -17,8 +17,8 @@ const PHASES = [
     focus: "Own trust, advice, and post-purchase",
     actions: [
       "Stand up expert product guidance and assisted-buying journeys in-store and in-app",
-      "Formalise post-purchase support as the signature of the Nova relationship",
-      "Convert Cluster 1 look-alikes with technology-led, advice-first engagement",
+      "Proactively build post-purchase support (extended consultations, advisory tiers for high-value customers)",
+      "Maintain Local Marketing Spend (proven ~30% ROI: ₹1.295L returned per ₹1L spent to drive traffic)",
     ],
   },
   {
@@ -26,9 +26,9 @@ const PHASES = [
     title: "Compound the position",
     focus: "Separate from Croma & Reliance Digital",
     actions: [
-      "Extend the trusted-advisor model across categories and life-stage journeys",
-      "Institutionalise the model into the operating rhythm and quarterly board review",
-      "Measure and defend the trust premium against the mid-market cluster",
+      "Extend trusted-advisor model to digital channels (DigitalScore B = ₹6,502/point, p < .001 in customer regression)",
+      "Evaluate a leaner, lower-cost service format for Price-Sensitive Deal Seekers to protect margins without abandonment",
+      "Repeat perceptual mapping study in 12-18 months to verify brand separation and check trust/premium equity",
     ],
   },
 ]
