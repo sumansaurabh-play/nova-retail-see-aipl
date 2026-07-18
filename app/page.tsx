@@ -261,12 +261,28 @@ export default function NovaReport() {
         />
         <Segments />
         <Reveal delay={120}>
-          <div className="mt-10 rounded-lg border border-border bg-card p-7">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border pb-5 mb-5">
-              <div className="font-mono text-[13px] uppercase tracking-editorial text-accent">
-                Why Cluster 3 is the priority
-              </div>
-              <div className="flex gap-2">
+          <div className="mt-12 grid gap-8 md:grid-cols-[2fr_1fr] items-start border-t border-border pt-10">
+            <div className="space-y-4">
+              <p className="text-lg leading-relaxed text-foreground/90">
+                The <span className="font-medium text-foreground">Trust &amp; Premium Seekers</span> (Cluster 3)
+                segment is simultaneously the largest cluster (n=332, 37.7% of the base) and the most
+                commercially attractive by every outcome measured — income, annual spend, loyalty
+                points, NPS (8.32), and service perception. This directly confirms CFO Meera Kapoor&apos;s
+                concern:{" "}
+                <span className="font-medium text-foreground">
+                  Nova&apos;s highest-value customers are not receiving proportionate attention.
+                </span>
+              </p>
+              <p className="text-base leading-relaxed text-muted-foreground">
+                Concentrating retention and premium-service investment on this segment is not a
+                speculative bet — it is a reallocation toward where value and relationship equity already exist.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 md:items-end">
+              <span className="font-mono text-[11px] uppercase tracking-editorial text-muted-foreground">
+                Interactive Evidence
+              </span>
+              <div className="flex flex-wrap gap-2 md:justify-end">
                 <EvidenceTrigger
                   label="Segments Plot"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-kRC0OtVd52CkIqFObBSQ6C7aSS8qBl.png"
@@ -283,21 +299,6 @@ export default function NovaReport() {
                 />
               </div>
             </div>
-            <p className="mt-4 text-lg leading-relaxed text-foreground/90">
-              The <span className="font-medium text-foreground">Trust &amp; Premium Seekers</span>{" "}
-              segment is simultaneously the largest cluster (n=332, 37.7% of the base) and the most
-              commercially attractive by every outcome measured — income, annual spend, loyalty
-              points, NPS, and service perception. This directly confirms CFO Meera Kapoor&apos;s
-              concern:{" "}
-              <span className="font-medium text-foreground">
-                Nova&apos;s highest-value customers are not the ones receiving proportionate
-                attention.
-              </span>
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              Concentrating retention and premium-service investment on this segment is not a
-              speculative bet — it is a reallocation toward where value already exists.
-            </p>
           </div>
         </Reveal>
       </Section>
