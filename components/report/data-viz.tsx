@@ -58,10 +58,10 @@ export function AttitudeBars() {
 /* ------------------------------------------------------------------ */
 
 const K_ROWS = [
-  { k: "k = 2", sizes: "361 · 519", ratio: 17.6, selected: false },
-  { k: "k = 3", sizes: "325 · 227 · 328", ratio: 24.5, selected: true },
-  { k: "k = 4", sizes: "198 · 221 · 132 · 464", ratio: 27.5, selected: false },
-  { k: "k = 5", sizes: "177 · 219 · 163 · 158 · 189", ratio: 29.9, selected: false },
+  { k: "k = 2", sizes: "346 · 534", ratio: 32.5, selected: false },
+  { k: "k = 3", sizes: "327 · 221 · 332", ratio: 54.5, selected: true },
+  { k: "k = 4", sizes: "143 · 220 · 432 · 44", ratio: 61.8, selected: false },
+  { k: "k = 5", sizes: "142 · 204 · 320 · 156 · 174", ratio: 68.3, selected: false },
 ]
 
 export function ClusterSelection() {
