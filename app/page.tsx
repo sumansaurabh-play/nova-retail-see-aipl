@@ -231,7 +231,7 @@ export default function NovaReport() {
                   label="Clusters"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-IyZJwnlcnJNZXUPBMnZOweTGXTCbDz.png"
                   imageAlt="K-means clustering validation table showing cluster sizes and variance explained"
-                  caption="Testing k = 2 through 5. k = 3 (selected) balances explanatory power with managerial usefulness: 54.5% of total variance with three distinct, actionable clusters."
+                  caption="k = 3 (highlighted) balances statistical power (54.5% variance explained) with managerial clarity. Three actionable segments with distinct profiles."
                   side="bottom"
                 /> More clusters always explain more variance; the honest test is whether the extra clusters mean anything a manager can act on.
               </p>
@@ -256,14 +256,14 @@ export default function NovaReport() {
             label="Segments"
             imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-kRC0OtVd52CkIqFObBSQ6C7aSS8qBl.png"
             imageAlt="3D cluster plot showing three distinct segments in dimensional space"
-            caption="Three distinct clusters visualized in reduced dimensional space (Dim1: 38.1%, Dim2: 30.2%). Clear spatial separation validates the robustness of the segmentation."
+            caption="Three visually distinct clusters in reduced dimensional space (38.1% + 30.2% variance). Spatial separation confirms segmentation robustness."
             side="bottom"
           />
           <EvidenceTrigger
             label="Centroid Table"
             imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-U698WwELYF3JbxRTk7akByL0jimDK3.png"
             imageAlt="Centroids of cluster table showing attribute values across all dimensions"
-            caption="Cluster centroids across all attribute dimensions. Each row represents a segment's mean values for price sensitivity, convenience importance, service importance, premium positioning, technology adoption, loyalty focus, and range preference."
+            caption="Mean attribute values across all seven dimensions (price, convenience, service, premium, technology, loyalty, range). Each cluster shows distinct preference profiles."
             side="bottom"
           />
         </div>
