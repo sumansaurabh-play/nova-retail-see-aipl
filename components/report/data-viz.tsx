@@ -229,7 +229,7 @@ export function PerceptualMap() {
             <span
               className={`block rounded-full ${
                 b.self
-                  ? "size-4 bg-accent ring-4 ring-accent/20"
+                  ? "size-4 bg-accent ring-4 ring-accent/20 animate-nova-dot"
                   : "size-2.5 bg-foreground/45"
               }`}
             />

@@ -147,11 +147,31 @@
     opacity: 1;
     transform: none;
   }
+  @keyframes nova-pulse {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 oklch(0.52 0.13 42 / 0.6);
+    }
+    70% {
+      transform: scale(1.2);
+      box-shadow: 0 0 0 14px oklch(0.52 0.13 42 / 0);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 oklch(0.52 0.13 42 / 0);
+    }
+  }
+  .animate-nova-dot {
+    animation: nova-pulse 2.2s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
   @media (prefers-reduced-motion: reduce) {
     .reveal {
       opacity: 1;
       transform: none;
       transition: none;
+    }
+    .animate-nova-dot {
+      animation: none;
     }
     html {
       scroll-behavior: auto;
