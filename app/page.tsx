@@ -153,7 +153,7 @@ export default function NovaReport() {
             <Reveal key={g.h} delay={i * 90}>
               <div className="flex h-full flex-col rounded-lg border border-border bg-background p-7">
                 <h3 className="font-serif text-2xl tracking-tight text-foreground overflow-hidden text-ellipsis">{g.h}</h3>
-                <ul className="mt-4 flex flex-1 flex-wrap gap-3">
+                <ul className="mt-4 flex flex-1 flex-wrap items-start content-start gap-3">
                   {g.items.map((it) => (
                     <li
                       key={it}
