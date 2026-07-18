@@ -253,10 +253,10 @@ export default function NovaReport() {
         />
         <div className="mb-10 flex gap-2">
           <EvidenceTrigger
-            label="Clusters"
-            imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Cluster%20Plot-Dsnfok3Go302CT2EY77mC0YeED13sp.svg"
-            imageAlt="Cluster plot showing three distinct segments"
-            caption="Three distinct clusters in two-dimensional projection. Clear separation validates the segmentation structure."
+            label="Segments"
+            imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-kRC0OtVd52CkIqFObBSQ6C7aSS8qBl.png"
+            imageAlt="3D cluster plot showing three distinct segments in dimensional space"
+            caption="Three distinct clusters visualized in reduced dimensional space (Dim1: 38.1%, Dim2: 30.2%). Clear spatial separation validates the robustness of the segmentation."
             side="bottom"
           />
           <EvidenceTrigger
