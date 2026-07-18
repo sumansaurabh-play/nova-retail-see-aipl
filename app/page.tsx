@@ -260,10 +260,10 @@ export default function NovaReport() {
             side="bottom"
           />
           <EvidenceTrigger
-            label="Profiles"
-            imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/centroid%20table-pNTE5zyqlvYrGOIoI5tiK1loDmh6ba.svg"
-            imageAlt="Centroid table with segment characteristics"
-            caption="Cluster centroids across all variables. Each row represents a segment's mean values, revealing distinct preference and behavioral patterns."
+            label="Centroid Table"
+            imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-U698WwELYF3JbxRTk7akByL0jimDK3.png"
+            imageAlt="Centroids of cluster table showing attribute values across all dimensions"
+            caption="Cluster centroids across all attribute dimensions. Each row represents a segment's mean values for price sensitivity, convenience importance, service importance, premium positioning, technology adoption, loyalty focus, and range preference."
             side="bottom"
           />
         </div>
