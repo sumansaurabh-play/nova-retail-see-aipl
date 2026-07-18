@@ -182,12 +182,13 @@ export function OddsRatios() {
 /* ------------------------------------------------------------------ */
 
 const BRANDS = [
-  { name: "Nova", x: 46, y: 52, self: true },
-  { name: "Croma", x: 52, y: 46 },
-  { name: "Reliance Digital", x: 40, y: 44 },
-  { name: "Amazon", x: 70, y: 70 },
-  { name: "Flipkart", x: 74, y: 64 },
-  { name: "Apple Store", x: 26, y: 20 },
+  { name: "Nova", x: 50, y: 42, self: true },
+  { name: "Croma", x: 44, y: 49 },
+  { name: "Reliance Digital", x: 38, y: 46 },
+  { name: "Amazon", x: 26, y: 72 },
+  { name: "Flipkart", x: 18, y: 80 },
+  { name: "Apple Store", x: 82, y: 24 },
+  { name: "Samsung Stores", x: 64, y: 36 },
 ]
 
 export function PerceptualMap() {
