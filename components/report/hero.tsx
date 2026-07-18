@@ -44,7 +44,7 @@ export function Hero() {
             { k: "Dataset", v: "N = 880" },
             { k: "Method", v: "K-means + Logit" },
             { k: "Model AUC", v: "0.926" },
-            { k: "The target", v: "Cluster 3" },
+            { k: "The target", v: "Trust & Premium Seekers" },
           ].map((m) => (
             <div key={m.k}>
               <div className="font-mono text-[10px] uppercase tracking-editorial text-muted-foreground">{m.k}</div>

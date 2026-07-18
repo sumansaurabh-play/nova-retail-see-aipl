@@ -239,7 +239,7 @@ export default function NovaReport() {
               <ClusterSelection />
               <div className="flex justify-start">
                 <EvidenceTrigger
-                  label="Jamovi Clusters Output"
+                  label="Variance explained across cluster solutions"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-IyZJwnlcnJNZXUPBMnZOweTGXTCbDz.png"
                   imageAlt="K-means clustering validation table showing cluster sizes and variance explained"
                   caption="k = 3 (highlighted) balances statistical power (54.5% variance explained) with managerial clarity. Three actionable segments with distinct profiles."
@@ -284,14 +284,14 @@ export default function NovaReport() {
               </span>
               <div className="flex flex-wrap gap-2 md:justify-end">
                 <EvidenceTrigger
-                  label="Segments Plot"
+                  label="Three-cluster separation in reduced-dimensional space"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-kRC0OtVd52CkIqFObBSQ6C7aSS8qBl.png"
                   imageAlt="3D cluster plot showing three distinct segments in dimensional space"
                   caption="Three visually distinct clusters in reduced dimensional space (38.1% + 30.2% variance). Spatial separation confirms segmentation robustness."
                   side="bottom"
                 />
                 <EvidenceTrigger
-                  label="Centroid Table"
+                  label="Cluster centroids across key attitudinal dimensions"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-U698WwELYF3JbxRTk7akByL0jimDK3.png"
                   imageAlt="Centroids of cluster table showing attribute values across all dimensions"
                   caption="Mean attribute values across all seven dimensions (price, convenience, service, premium, technology, loyalty, range). Each cluster shows distinct preference profiles."
@@ -330,14 +330,14 @@ export default function NovaReport() {
               </p>
               <div className="mb-5 flex gap-2">
                 <EvidenceTrigger
-                  label="Model"
+                  label="Logistic regression coefficients and odds ratios"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Statistical%20Validation%20Binomial%20Logistic%20Regression%20%20Coefficients%20and%20interpretation-FN8w8kfCTsSEjylla76KBwjRk4OIkp.svg"
                   imageAlt="Logistic regression coefficients"
                   caption="Age and income are significant predictors (p < 0.001). Gender and city tier are not significant, confirming the two-lever targeting strategy."
                   side="right"
                 />
                 <EvidenceTrigger
-                  label="Fit"
+                  label="Model performance and ROC fit"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Statistical%20Validation%20Binomial%20Logistic%20Regression%20%20Model%20fit-QfDMY4eUpomQU3ri9Ibfd5tWdhlgsG.svg"
                   imageAlt="Model fit statistics"
                   caption="ROC curve (AUC = 0.926) and model diagnostics. Excellent discrimination between target and non-target segments."
@@ -378,7 +378,7 @@ export default function NovaReport() {
               </p>
               <div className="mb-5 flex gap-2">
                 <EvidenceTrigger
-                  label="Map"
+                  label="Perceptual map of Nova and key competitors"
                   imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Perceptual%20Mapping%20and%20Current%20Brand%20Position-MgyF2OLQqYedBjUIdjJuVZT6bgIHK9.svg"
                   imageAlt="Perceptual map showing brand positions"
                   caption="Nova clusters with Croma and Reliance Digital in the undifferentiated middle. Amazon and Flipkart own value/convenience; Apple occupies the premium extreme."
