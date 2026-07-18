@@ -428,7 +428,7 @@ export default function NovaReport() {
       {/* 08 — Recommendation (the peak) */}
       <section
         id="recommendation"
-        className="scroll-mt-0 border-t border-foreground bg-foreground px-6 py-28 text-background md:py-40"
+        className="scroll-mt-0 border-t border-foreground bg-foreground px-6 pt-10 pb-28 text-background md:pt-12 md:pb-40"
       >
         <div className="mx-auto w-full max-w-6xl">
           <Reveal>
