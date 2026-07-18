@@ -74,7 +74,7 @@ export function Section({
   className?: string
 }) {
   return (
-    <section id={id} className={`scroll-mt-24 px-6 py-24 md:py-32 ${className}`}>
+    <section id={id} className={`scroll-mt-0 px-6 py-24 md:py-32 ${className}`}>
       <div className="mx-auto w-full max-w-6xl">{children}</div>
     </section>
   )
