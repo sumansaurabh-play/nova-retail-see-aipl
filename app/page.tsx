@@ -228,10 +228,10 @@ export default function NovaReport() {
               </p>
               <p className="text-muted-foreground">
                 Solutions were tested at k = 2 through 5. <EvidenceTrigger
-                  label="Proof"
-                  imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Determining%20the%20number%20of%20clusters-MTi6eRYgCyAwKr63r67xxBgpMevS4I.jpg"
-                  imageAlt="Determining number of clusters table"
-                  caption="Testing k = 2 through 5. k = 3 (selected) balances explanatory power with managerial usefulness: 24.5% of total variance with three distinct, actionable clusters."
+                  label="Clusters"
+                  imageUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-IyZJwnlcnJNZXUPBMnZOweTGXTCbDz.png"
+                  imageAlt="K-means clustering validation table showing cluster sizes and variance explained"
+                  caption="Testing k = 2 through 5. k = 3 (selected) balances explanatory power with managerial usefulness: 54.5% of total variance with three distinct, actionable clusters."
                   side="bottom"
                 /> More clusters always explain more variance; the honest test is whether the extra clusters mean anything a manager can act on.
               </p>
