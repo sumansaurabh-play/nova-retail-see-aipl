@@ -3,7 +3,7 @@ import { Reveal } from "./reveal"
 const SEGMENTS = [
   {
     tag: "Cluster 1",
-    n: "335",
+    n: "327",
     name: "Digitally Engaged",
     priority: "Secondary",
     summary: "Moderate value, high on channels.",
@@ -17,12 +17,12 @@ const SEGMENTS = [
   },
   {
     tag: "Cluster 2",
-    n: "216",
+    n: "221",
     name: "Price-Sensitive",
     priority: "Deprioritise",
     summary: "Low engagement, price-led.",
     evidence: [
-      "Price importance centroid of +1.44 — the single most extreme signal in the model",
+      "Price importance centroid of 1.440 — the single most extreme signal in the model",
       "Lowest income, visits, and transactions",
       "Weakest NPS, service, and digital scores",
     ],
@@ -31,14 +31,14 @@ const SEGMENTS = [
   },
   {
     tag: "Cluster 3",
-    n: "329",
+    n: "332",
     name: "High-Value Loyal",
     priority: "Primary Target",
     summary: "The defensible growth engine.",
     evidence: [
-      "Highest income (₹17.0 LPA) and annual spend (₹688,601)",
-      "Highest loyalty points (6,509) and NPS",
-      "Strongest service score (8.2); lowest price sensitivity",
+      "Highest income (₹17.8 LPA) and annual spend (₹700,339)",
+      "Highest loyalty points (6,757) and NPS",
+      "Strongest service score (8.24); lowest price sensitivity",
     ],
     move: "Concentrate retention, loyalty, and premium service here.",
     primary: true,
